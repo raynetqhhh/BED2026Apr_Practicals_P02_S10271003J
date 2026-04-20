@@ -1,0 +1,25 @@
+{
+  "name": "bed2026apr_practicals_p02_s10271003j",
+  "version": "1.0.0",
+  "description": "Week 1 Practical",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raynetqhhh/BED2026Apr_Practicals_P02_S10271003J.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/raynetqhhh/BED2026Apr_Practicals_P02_S10271003J/issues"
+  },
+  "homepage": "https://github.com/raynetqhhh/BED2026Apr_Practicals_P02_S10271003J#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {}
+}
