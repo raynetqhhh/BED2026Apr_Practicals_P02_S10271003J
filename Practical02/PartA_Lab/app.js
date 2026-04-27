@@ -63,3 +63,15 @@ app.put("/foods/:id", (req, res) => {
     food: foods[idx],
   });
 });
+//Delete Food
+app.delete("/foods/:id", (req, res) => {
+  const foodId = Number(req.params.id);
+  const exists = foods.some((f) => f.id === foodId);
+  if (!exists) {
+    return res
+      .status(404)
+      .json({ message: `No food found with id ${foodId}.` });
+  }
+  foods = foods.filter((f) => f.id !== foodId);
+  res.json({ message: `Food with id ${foodId} deleted successfully.` });
+});
