@@ -1,0 +1,11 @@
+During Part A of this practical, I learned that REST APIs provide a structured way to perform CRUD
+operations on resources using standard HTTP methods. Those methods includes GET which retrieves data, 
+POST which creates new resources, PUT which updates existing ones and DELETE which removes them.
+I understood how each HTTP method maps directly to a specific database operation, making APIs predictable and easy to use. 
+The main challenge I faced was that I was constantly getting error as I did not add in the data properly or that I was
+not in the correct folder which resulted in lots of error. However, through this it helped me grasp how proper error handling
+and status code are critical for building robust APIs.
+
+a. POST is for creating something new and giving it an ID where as PUT is for update this specific thing that already exists. 
+Hence, we use both POST and PUT for updating resources.
+b. 404 Not Found. The resource food with that ID doesn't exist or client tried to access/modify something that isn't there. 
