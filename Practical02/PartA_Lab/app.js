@@ -42,3 +42,24 @@ app.get("/foods", (req, res) => {
     foods: results,
   });
 });
+// Update Food (Put/foods/:id)
+app.put("/foods/:id", (req, res) => {
+  const foodId = Number(req.params.id);
+  const { name, calories } = req.body;
+  if (!name || calories == null) {
+    return res
+      .status(400)
+      .json({ message: "Cannot update: name and calories are required." });
+  }
+  const idx = foods.findIndex((f) => f.id === foodId);
+  if (idx === -1) {
+    return res
+      .status(404)
+      .json({ message: `No food found with id ${foodId}.` });
+  }
+  foods[idx] = { id: foodId, name, calories };
+  res.json({
+    message: `Food with id ${foodId} updated successfully.`,
+    food: foods[idx],
+  });
+});
