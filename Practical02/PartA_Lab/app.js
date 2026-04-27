@@ -25,3 +25,20 @@ app.post("/foods", (req, res) => {
     .status(201)
     .json({ message: "Food created successfully.", food: newFood });
 });
+
+//Read all foods
+app.get("/foods", (req, res) => {
+  const { name } = req.query;
+  let results = foods;
+  if (name) {
+    results = foods.filter((f) => f.name.includes(name));
+    return res.json({
+      message: `Found ${results.length} food(s) matching name filter.`,
+      foods: results,
+    });
+  }
+  res.json({
+    message: `Retrieved all foods (${results.length}).`,
+    foods: results,
+  });
+});
