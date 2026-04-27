@@ -7,10 +7,6 @@ app.get("/hello", (req, res) => {
   res.send("Hello, world!");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
-
 let foods = [];
 app.post("/foods", (req, res) => {
   const { name, calories } = req.body;
@@ -74,4 +70,8 @@ app.delete("/foods/:id", (req, res) => {
   }
   foods = foods.filter((f) => f.id !== foodId);
   res.json({ message: `Food with id ${foodId} deleted successfully.` });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
