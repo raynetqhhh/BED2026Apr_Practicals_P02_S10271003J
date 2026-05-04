@@ -1,0 +1,6 @@
+I faced issues like the port and passwords which lead to a server connection issue.
+Through this it made me to check again for all the requirements to ensure that it will connect properly
+if not it will return an error.
+I also faced some challenges understanding how the different parts of the application connect,
+especially when tracing the flow of data between routes and the database, 
+but this helped me better appreciate clean code organization.
