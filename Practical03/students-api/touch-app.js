@@ -73,3 +73,35 @@ app.get("/students/:id", async (req, res) => {
     }
   }
 });
+//Post route - create's new student
+app.post("/students", async (req, res) => {
+  const newStudentData = req.body;
+  let connection;
+  try {
+    connection = await sql.connect(dbConfig);
+    const sqlQuery = `INSERT INTO Students (name, address) VALUES (@name, @address); SELECT SCOPE_IDENTITY() AS student_id;`;
+    const request = connection.request();
+    request.input("name", newStudentData.name);
+    request.input("address", newStudentData.address);
+    const result = await request.query(sqlQuery);
+    const newStudentId = result.recordset[0].student_id;
+    //fetch the newly created student record to return in the response
+    const getNewStudentQuery = `SELECT studentid, name, address FROM Students WHERE studentid = @student_id`;
+    const getNewStudentRequest = connection.request();
+    getNewStudentRequest.input("id", newStudentId);
+    const newStudentResult =
+      await getNewStudentRequest.query(getNewStudentQuery);
+    res.status(201).json(newStudentResult.recordset[0]);
+  } catch (error) {
+    console.error("Error in POST /students:", error);
+    res.status(500).send("Error creating student");
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (closeError) {
+        console.error("Error closing database connection:", closeError);
+      }
+    }
+  }
+});
