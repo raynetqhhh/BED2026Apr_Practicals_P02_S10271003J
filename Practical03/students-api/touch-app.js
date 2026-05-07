@@ -105,3 +105,42 @@ app.post("/students", async (req, res) => {
     }
   }
 });
+//put route - update existing student
+app.put("/students/:id", async (req, res) => {
+  const studentId = parseInt(req.params.id);
+  const updatedStudentData = req.body;
+  let connection;
+  try {
+    connection = await sql.connect(dbConfig);
+    const sqlQuery = `UPDATE Students SET name = @name, address = @address WHERE studentid = @studentid; SELECT @@ROWCOUNT AS affectedRows;`;
+    const request = connection.request();
+    request.input("id", studentId);
+    request.input("name", updatedStudentData.name);
+    request.input("address", updatedStudentData.address);
+    await request.query(sqlQuery);
+    //fetch updated student to return it.
+    const getUpdatedStudentQuery = `SELECT student_id, name, address FROM Students WHERE student_id = @id`;
+    const getUpdatedStudentRequest = connection.request();
+    getUpdatedStudentRequest.input("id", studentId);
+    const updatedStudentResult = await getUpdatedStudentRequest.query(
+      getUpdatedStudentQuery,
+    );
+
+    if (updatedStudentResult.recordset.length === 0) {
+      return res.status(404).send("Student not found");
+    }
+
+    res.status(200).json(updatedStudentResult.recordset[0]);
+  } catch (error) {
+    console.error("Error in PUT /students/:id:", error);
+    res.status(500).send("Error updating student");
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (closeError) {
+        console.error("Error closing database connection:", closeError);
+      }
+    }
+  }
+});
