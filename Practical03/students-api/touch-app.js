@@ -144,3 +144,41 @@ app.put("/students/:id", async (req, res) => {
     }
   }
 });
+//delete route - delete existing student
+app.delete("/students/:id", async (req, res) => {
+  const studentId = req.params.id;
+
+  let connection;
+  try {
+    connection = await sql.connect(dbConfig);
+
+    // First, check if the student exists
+    const checkStudentQuery = `SELECT student_id FROM Students WHERE student_id = @id`;
+    const checkRequest = connection.request();
+    checkRequest.input("id", studentId);
+    const checkResult = await checkRequest.query(checkStudentQuery);
+
+    if (checkResult.recordset.length === 0) {
+      return res.status(404).send("Student not found");
+    }
+
+    // Delete the student
+    const sqlQuery = `DELETE FROM Students WHERE student_id = @id;`;
+    const request = connection.request();
+    request.input("id", studentId);
+    await request.query(sqlQuery);
+
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error in DELETE /students/:id:", error);
+    res.status(500).send("Error deleting student");
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (closeError) {
+        console.error("Error closing database connection:", closeError);
+      }
+    }
+  }
+});
