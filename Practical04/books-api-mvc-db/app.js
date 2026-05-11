@@ -5,6 +5,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const bookController = require("./controllers/bookController");
+const {
+  validateBook,
+  validateBookId,
+  validateBookForUpdate,
+} = require("./middlewares/bookValidation"); // import Book Validation Middleware
 
 // Create Express app
 const app = express();
